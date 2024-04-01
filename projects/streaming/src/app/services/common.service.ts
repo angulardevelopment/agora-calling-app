@@ -24,6 +24,7 @@ export class CommonService {
       params: new HttpParams({ fromString: 'channel=test&uid=' + uid }),
     };
     const data = await this.api.getRequest(url, opts.params).toPromise();
+    console.log(data, 'generateTokenAndUid')
     return { uid: uid, token: data['token'] };
   }
 
@@ -32,6 +33,8 @@ export class CommonService {
     let url = 'https://sharp-pouncing-grass.glitch.me/rtmToken?';
     const opts = { params: new HttpParams({ fromString: 'account=' + uid }) };
     const data = await this.api.getRequest(url, opts.params).toPromise();
+    console.log(data, 'generateRtmTokenAndUid')
+
     return { uid: uid, token: data['key'] };
   }
 

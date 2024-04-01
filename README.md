@@ -1,3 +1,12 @@
+  "@nguniversal/express-engine": "^13.1.0-next.0",
+    "agora-access-token": "^2.0.4",
+    "agora-rtc-sdk-ng": "^4.3.0",
+    "agora-rtm-sdk": "^1.4.1-201",
+    "ngx-toastr": "^13.2.1",
+
+heroku, glitch external dependencies
+
+
 https://sabe.io/tutorials/how-to-create-modal-popup-box
 ## App name
 
