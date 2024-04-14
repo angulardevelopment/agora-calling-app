@@ -1,108 +1,66 @@
-  "@nguniversal/express-engine": "^13.1.0-next.0",
-    "agora-access-token": "^2.0.4",
-    "agora-rtc-sdk-ng": "^4.3.0",
-    "agora-rtm-sdk": "^1.4.1-201",
-    "ngx-toastr": "^13.2.1",
+# My Awesome YouTube Channel
 
-heroku, glitch external dependencies
+Welcome to my YouTube channel! 🎉 In this channel, I share exciting content related to web development. Whether you're interested in Angular, Javascript, or Productivity tips, you'll find something valuable here.
+[YouTube Channel](http://youtube.com/@neweraofcoding)
+
+## About Me
+
+I'm Sam, and I'm passionate about product engineering and web development. I create videos that will help you learn web development.
+
+## What You'll Find Here
+
+- **[ Angular ]**: [Learn the fundamentals. I explained everything you need to get started with this JavaScript framework written in TypeScript. It is the web development framework for building the future. works at any scale. Loved by millions. Build for everyone.  open-source framework for building single-page client applications using HTML and TypeScript.]
+- **[ Javascript ]**: [JavaScript is a powerful programming language that can add interactivity to a website. JavaScript is easy to learn. It's the foundation of frontend web development.]
+- **[ Career Tips ]**: [self-assessment, goal setting, action planning, implementation, and refinement. By following these steps, you can develop a road map for achieving your career goals. Tips to improve your career development. Cultivating a beginner's mindset is a critical part of career growth. critical part of your professional growth.]
+- **[ Common Errors ]**: [Mistakes to Avoid in Software Development Projects.]
+- **[ Development Tools ]**: [Top Software Development Tools List.]
+- **[ Typescript ]**: [TypeScript extends JavaScript by adding types to the language. TypeScript speeds up your development experience by catching errors. TypeScript can help enhance and improve your web development projects.]
+- **[ Git & GitHub ]**: [GitHub is where over 100 million developers shape the future of software together. Contribute to the open-source community and manage Git repositories. This practical guide gets you to jump right into using GitHub, learning the basics of Git. Git and GitHub are two of the most essential tools in the world of software development.]
+- **[ Video Conferencing Tool ]**: [Unlock the potential of video conferencing software development. Dive into our guide for insights on key features and cost factors.  If you're looking to integrate video communication into your app or planning to build a video streaming/conference app from scratch, create a fully customized audio & video conferencing app.]
 
 
-https://sabe.io/tutorials/how-to-create-modal-popup-box
-## App name
-
-A tutorial on building a WebRTC video  meeting rooms using WebRTC agora packages and Angular 11.
-
- A simple  app for video calling between two people. User can join with the links
+### About the app
+A tutorial on building a WebRTC video  meeting rooms using WebRTC agora packages and Angular.
+A simple  app for video calling between two people. User can join with the links
 Sample app to join/leave a channel.
+Video conferencing tool using Angular framework.
 
-  Video App conferencing tool using Angular framework
+### How to test the application.
+- [On Local open link click on user 1](http://localhost:4200/user/1)
+- [On Local open link click on user 2](http://localhost:4200/user/2)
 
-[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/angulardevelopment/video-app-agora-rtc?logo=github&style=social)](https://github.com/angulardevelopment/) [![GitHub last commit](https://img.shields.io/github/last-commit/angulardevelopment/video-app-agora-rtc?style=social&logo=git)](https://github.com/angulardevelopment/) [![GitHub stars](https://img.shields.io/github/stars/angulardevelopment/video-app-agora-rtc?style=social)](https://github.com/angulardevelopment/video-app-agora-rtc/stargazers) [![GitHub forks](https://img.shields.io/github/forks/angulardevelopment/video-app-agora-rtc?style=social&logo=git)](https://github.com/angulardevelopment/video-app-agora-rtc/network)
+### Important Links
+- [heroku](https://dashboard.heroku.com/apps/testnodeappnew)
+- [console - For APPID create an app on this site](https://console.agora.io/)
+- [glitch - token deployment](https://sharp-pouncing-grass.glitch.me/rtmToken?)
 
-<p align="center">
-<a href="#">
-<img src="src/assets/download.jpg" width="200px" alt="agora"/>
-</a>
-</p>
+### External npm Packages used
+-    "agora-access-token": "^2.0.4",
+-    "agora-rtc-sdk-ng": "^4.3.0",
+-    "agora-rtm-sdk": "^1.4.1-201",
+-    "ngx-toastr": "^13.2.1",
 
-<img align="left" src="http://estruyf-github.azurewebsites.net/api/VisitorHit?user=angulardevelopment&repo=video-app-agora-rtc&countColorcountColor&countColor=%237B1E7B"/>
-<img align="right" src="https://img.shields.io/github/repo-size/angulardevelopment/video-app-agora-rtc?style=for-the-badge&logo=appveyor" alt="GitHub repo size"/>
+## Subscribe and Stay Updated!
 
-<img align="right" alt="video-app-agora-rtc" src="https://socialify.git.ci/angulardevelopment/video-app-agora-rtc/image?font=Inter&forks=1&issues=1&logo=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcT3XNTrF7bUh1kkqV4M7IacbSBLCqgmDAhyVV-Nf7X6nlWhB4eL4-7CfDPaxC0LmyEqX6o%26usqp%3DCAU&name=1&owner=1&pattern=Floating%20Cogs&pulls=1&stargazers=1&theme=Dark" />
+Don't miss out on new videos! Subscribe to my channel and hit the notification bell 🔔 to receive updates whenever I upload fresh content. Let's learn, laugh, and explore together!
 
-<p align="center">
-<img src="https://forthebadge.com/images/badges/built-with-love.svg" alt=" forks"/>
-</p>
+[!Subscribe to My Channel](http://youtube.com/@neweraofcoding)
 
-#### Link for [demo](#) 
-[![Generic badge](https://img.shields.io/badge/view-demo-orange)](#)
+## Connect with Me
 
-## Useful Links
+- **YouTube**: [YouTube Channel Link](http://youtube.com/@neweraofcoding)
+- **Facebook**: [Facebook Page Link](https://www.facebook.com/learnangular2plus/)
+- **Instagram**: [Instagram Page Link](https://www.instagram.com/angular_development/)
 
-- [console](https://console.agora.io/)
-For APPID create an app on below site
+Feel free to reach out, comment on videos, and share your thoughts. I appreciate your support! 🙌
 
+## License
 
+This project is licensed under the MIT License.
 
-## Requirements
+---
 
-[![GitHub top language](https://img.shields.io/github/languages/top/angulardevelopment/video-app-agora-rtc?logo=html&style=social)](https://github.com/angulardevelopment/)
-
-The source code of this project is written in **`JavaScript`, and used `agora-rtc-sdk-ng`**. 
-
-## Instructions
-
-[![chrome](https://img.shields.io/badge/Open-project-lightgrey.svg?logo=google-chrome&style=popout&logoColor=red)](#)
-
-Open the project and run `ng s` 
-
-## Pre-requisites
-npm, nodejs
-## Objective of the project.
-upload build
-## Tech stacks used
-nodejs
-## How to build the application.
-create multiple JS files
-## How to test the application.
- If you are running project on local
-
- http://localhost:4200/user/1
-
- http://localhost:4200/user/2
-
-After opening this link click on user 1
-
-After opening this link click on user 2
-## Software tools used.
-vscode
-## Tangible results.
-build deploy
-## GIFs showing user flows (if customer-facing)
-Templates/screenshots of all the project pages
-
-## Links to web pages
-blog link
-## Links to code/GitHub repository link
-https://github.com/angulardevelopment/video-app-agora-rtc
-## Duration
-1 month
-## build creation and deployment
-[command](https://dashboard.heroku.com/apps/testnodeappnew)
-## Features
-http-proxy
-
-## Support
-Don't Forget to bookmark/star this repo.
-
-## buy me a coffee /Sponsor this project
-ko-fi.com/softwaredev
-
-## Need help?
-For any Query Ping here- 
-https://bio.link/angulardev
-
-[![Facebook](https://img.shields.io/badge/Facebook-add-blue.svg?logo=facebook&logoColor=white)](https://www.facebook.com/learnangular2plus/) [![Instagram](https://img.shields.io/badge/Instagram-follow-purple.svg?logo=instagram&logoColor=white)](https://www.instagram.com/angular_development/) [![Medium](https://img.shields.io/badge/Medium-follow-black.svg?logo=medium&logoColor=white)](https://eraoftech.medium.com/ )
+If you have any questions or need further assistance, feel free to ask! 🚀
 
 
 ```bash
@@ -138,15 +96,7 @@ ______      _               _   _               _
 
 
 ```
-
-## License
-
-**MIT &copy; [Sunny](https://github.com/angulardevelopment/video-app-agora-rtc/blob/master/LICENSE)**
-
-[![GitHub license](https://img.shields.io/github/license/angulardevelopment/video-app-agora-rtc?style=social&logo=github)](https://github.com/angulardevelopment/video-app-agora-rtc/blob/master/LICENSE) 
-
 ---------
-
 ```javascript
 
 if (youEnjoyed) {
@@ -154,7 +104,4 @@ if (youEnjoyed) {
 }
 
 ```
-
------------
-
-
+---------
