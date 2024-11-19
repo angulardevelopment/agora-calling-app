@@ -32,12 +32,11 @@ Video conferencing tool using Angular framework.
 ### Important Links
 - [heroku](https://dashboard.heroku.com/apps/testnodeappnew)
 - [console - For APPID create an app on this site](https://console.agora.io/)
-- [glitch - token deployment](https://sharp-pouncing-grass.glitch.me/rtmToken?)
 
 ### External npm Packages used
 -    "agora-access-token": "^2.0.4",
--    "agora-rtc-sdk-ng": "^4.3.0",
--    "agora-rtm-sdk": "^1.4.1-201",
+-    "agora-rtc-sdk-ng": "^4.3.0", "^4.20.1",
+-    "agora-rtm-sdk": "^1.4.1-201", "^1.5.1",
 -    "ngx-toastr": "^13.2.1",
 
 ## Subscribe and Stay Updated!

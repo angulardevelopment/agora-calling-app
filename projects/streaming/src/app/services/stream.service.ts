@@ -52,7 +52,7 @@ export class StreamService {
 
   // liveUsersList = [];
   options = {
-    appId: '48b158ccc64343cf9973a8f5df311f2a', // set your appid here b1a776384fe24b58a43030c834b8f7dd
+    appId: '', // set your appid here 
     channel: 'test', // Set the channel name.
     // token: '', // Pass a token if your project enables the App Certificate.
     // uid: null

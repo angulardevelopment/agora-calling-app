@@ -39,7 +39,6 @@ export class CommonService {
   }
 
   // async generateRtmTokenAndUid2(uid: string) {
-  //   // https://sharp-pouncing-grass.glitch.me/rtmToken?account=1234
   //   let url = 'https://darkened-coffee-chicory.glitch.me/rtmToken?';
   //   const opts = { params: new HttpParams({ fromString: 'account=' + uid }) };
   //   const data = await this.api.getRequest(url, opts.params).toPromise();
