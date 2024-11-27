@@ -24,7 +24,7 @@ A tutorial on building a WebRTC video  meeting rooms using WebRTC agora package
 A simple  app for video calling between two people. User can join with the links
 Sample app to join/leave a channel.
 Video conferencing tool using Angular framework.
-
+Angular project featuring video meeting using agora.io. Packages used agora-rtc-sdk-ng and agora-rtm-sdk library.
 ### How to test the application.
 - [On Local open link click on user 1](http://localhost:4200/user/1)
 - [On Local open link click on user 2](http://localhost:4200/user/2)
