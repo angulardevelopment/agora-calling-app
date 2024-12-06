@@ -15,12 +15,15 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/streaming",
+            "outputPath": {
+              "base": "dist/streaming"
+            },
             "index": "projects/streaming/src/index.html",
-            "main": "projects/streaming/src/main.ts",
-            "polyfills": "projects/streaming/src/polyfills.ts",
+            "polyfills": [
+              "projects/streaming/src/polyfills.ts"
+            ],
             "tsConfig": "projects/streaming/tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -31,7 +34,8 @@
               "projects/streaming/src/styles.scss",
               "node_modules/ngx-toastr/toastr.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "browser": "projects/streaming/src/main.ts"
           },
           "configurations": {
             "production": {
@@ -46,8 +50,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -66,18 +68,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "streaming:build"
+            "buildTarget": "streaming:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "streaming:build:production"
+              "buildTarget": "streaming:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "streaming:build"
+            "buildTarget": "streaming:build"
           }
         },
         "test": {

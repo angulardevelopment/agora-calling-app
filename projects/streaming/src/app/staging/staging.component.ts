@@ -8,9 +8,10 @@ import { Subscription } from 'rxjs';
 import AgoraRTC from 'agora-rtc-sdk-ng';
 
 @Component({
-  selector: 'app-staging',
-  templateUrl: './staging.component.html',
-  styleUrls: ['./staging.component.scss'],
+    selector: 'app-staging',
+    templateUrl: './staging.component.html',
+    styleUrls: ['./staging.component.scss'],
+    standalone: false
 })
 export class StagingComponent implements OnInit {
   hideBtns = true;

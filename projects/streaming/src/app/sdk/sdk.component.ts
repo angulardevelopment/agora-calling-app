@@ -11,9 +11,10 @@ import { timer } from 'rxjs';
 import { StreamService } from '../services/stream.service';
 
 @Component({
-  selector: 'app-sdk',
-  templateUrl: './sdk.component.html',
-  styleUrls: ['./sdk.component.scss'],
+    selector: 'app-sdk',
+    templateUrl: './sdk.component.html',
+    styleUrls: ['./sdk.component.scss'],
+    standalone: false
 })
 export class SdkComponent implements OnInit {
   userName: string;

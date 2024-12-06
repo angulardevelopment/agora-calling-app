@@ -4,9 +4,10 @@ import { ApiService } from '../services/api.service';
 import { StreamService } from '../services/stream.service';
 
 @Component({
-  selector: 'app-live',
-  templateUrl: './live.component.html',
-  styleUrls: ['./live.component.scss'],
+    selector: 'app-live',
+    templateUrl: './live.component.html',
+    styleUrls: ['./live.component.scss'],
+    standalone: false
 })
 export class LiveComponent implements OnInit {
   constructor(
