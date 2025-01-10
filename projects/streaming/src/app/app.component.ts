@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'streaming';
   hide = true;
   constructor(private router: Router, public common: CommonService) { }
+
   open(value: number) {
     if (value == 3) {
       this.router.navigate([`/live`]);

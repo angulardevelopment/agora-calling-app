@@ -21,7 +21,7 @@ export class FlexibleClassroomComponent implements OnInit {
   // dggsd() {
   //   AgoraEduSDK.config({
   //     // Here pass in the Agora App ID you have got
-  //     appId: "4de74d230b2349458cd138aa2677bc0a",
+  //     appId: "",
   //   })
   //   AgoraEduSDK.launch(
   //     document.querySelector("#root1"), {

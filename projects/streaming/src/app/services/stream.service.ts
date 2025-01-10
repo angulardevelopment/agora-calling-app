@@ -52,7 +52,7 @@ export class StreamService {
 
   // liveUsersList = [];
   options = {
-    appId: '', // set your appid here 
+    appId: '', // set your appid here
     channel: 'test', // Set the channel name.
     // token: '', // Pass a token if your project enables the App Certificate.
     // uid: null
@@ -186,7 +186,7 @@ export class StreamService {
         }
       }
     });
-    
+
     rtc.client.on('user-unpublished', (user) => {
       console.log(user, 'user-unpublished');
     });
@@ -496,12 +496,12 @@ export class StreamService {
   }
       }
 
-   
-    
+
+
         async alldevices(){
-          return await AgoraRTC.getDevices()   
+          return await AgoraRTC.getDevices()
         }
-        
+
   //Set Role
   async setRole(rtc: IRtc, role: ClientRole) {
     try {

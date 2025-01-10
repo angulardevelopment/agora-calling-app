@@ -19,19 +19,26 @@ export class CommonService {
   // rtc token
   async generateTokenAndUid(uid: number) {
     // https://test-agora.herokuapp.com/access_token?channel=test&uid=1234
-    let url = 'https://test-agora.herokuapp.com/access_token?';
-    const opts = {
-      params: new HttpParams({ fromString: 'channel=test&uid=' + uid }),
+    // let url = 'https://test-agora.herokuapp.com/access_token?';
+    // const opts = {
+    //   params: new HttpParams({ fromString: 'channel=test&uid=' + uid }),
+    // };
+//     curl http://localhost:8080/rtcToken?channelName=test
+// curl http://localhost:8080/rtmToken?account=testAccount
+    const url = 'http://localhost:8080/rtcToken'
+        const opts = {
+      params: new HttpParams({ fromString:  'channelName=test&uid=' + uid }),
     };
     const data = await this.api.getRequest(url, opts.params).toPromise();
     console.log(data, 'generateTokenAndUid')
-    return { uid: uid, token: data['token'] };
+    return { uid: uid, token: data['key'] };
   }
 
-  async generateRtmTokenAndUid(uid: number) {
+  async generateRtmTokenAndUid(uid: string) {
     // https://sharp-pouncing-grass.glitch.me/rtmToken?account=1234
-    let url = 'https://sharp-pouncing-grass.glitch.me/rtmToken?';
-    const opts = { params: new HttpParams({ fromString: 'account=' + uid }) };
+    // let url = 'https://sharp-pouncing-grass.glitch.me/rtmToken?';
+    const url = 'http://localhost:8080/rtmToken'
+    const opts = { params: new HttpParams({ fromString:  'account=test&uid=' + uid }) };
     const data = await this.api.getRequest(url, opts.params).toPromise();
     console.log(data, 'generateRtmTokenAndUid')
 

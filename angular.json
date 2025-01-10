@@ -129,6 +129,5 @@
     }},
   "cli": {
     "analytics": "4ba5dd2f-91d7-496c-9581-1eb11f6ae75f"
-  },
-  "defaultProject": "streaming"
+  }
 }

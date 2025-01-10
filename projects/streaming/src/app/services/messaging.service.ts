@@ -1,8 +1,9 @@
 import { CommonService } from './common.service';
 import { Injectable } from '@angular/core';
-
-import AgoraRTM  from 'agora-rtm-sdk';
+// { RTMClient }
+import AgoraRTM   from 'agora-rtm-sdk';
 import { rtmUser } from '../models';
+import { StreamService } from './stream.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,21 +12,23 @@ export class MessagingService {
   rtmclient;
   channel;
 
-  constructor(private common: CommonService) { }
+  constructor(private common: CommonService, private stream: StreamService) { }
 
   // pass your appid in createInstance
-  createRTMClient(id) {
-    // const client = AgoraRTM.createInstance(id, {
-    //   enableLogUpload: false,
-    // });
-    // return client;
+  createRTMClient(id: string) {
+    const client = AgoraRTM.createInstance(id, {
+      enableLogUpload: false,
+    });
+    return client;
 
-    const signalingEngine = new AgoraRTM.RTM('app-id', 'user-id');
-    return signalingEngine;
+    // const signalingEngine = new AgoraRTM.RTM(this.stream.options.appId, id);
+    // return signalingEngine;
   }
 
   async signalLogin(client, token: string, uid: string) {
+    console.log(client, token, uid, this, 'signalLogin');
     try {
+      // uid
       await client.login({ token, uid });
     } catch (error) {
       console.log(error);
@@ -125,6 +128,7 @@ export class MessagingService {
   }
 
   createRtmChannel(client) {
+    // createChannel createStreamChannel
     const channel = client.createChannel('test');
     return channel;
   }

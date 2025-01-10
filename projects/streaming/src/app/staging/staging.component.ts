@@ -59,11 +59,12 @@ export class StagingComponent implements OnInit {
   check() {
     return this.urlId == '1' ? this.common.uid1 : this.common.uid2;
   }
+
   async ngOnInit(): Promise<void> {
     try {
       await this.rtmUserLogin(this.check());
     } catch (error) {
-      console.log(error);
+      console.log(error, 'error');
     }
   }
 
@@ -98,12 +99,10 @@ export class StagingComponent implements OnInit {
   }
 
   deviceToggle(){
-   
-      
     AgoraRTC.onMicrophoneChanged = async (changedDevice) => {
       // const externaldevices = await this.stream.alldevices();
       console.log( changedDevice);
-      
+
   }
     AgoraRTC.onCameraChanged = async (changedDevice) => {
 
@@ -120,30 +119,33 @@ export class StagingComponent implements OnInit {
         console.log("speaker changed!", info);
       };
     }
+
   async rtmUserLogin(uid: number) {
     try {
+      const rtmDetails = await this.common.generateRtmTokenAndUid(uid.toString());
+
       this.message.rtmclient = this.message.createRTMClient(this.stream.options.appId);
 
       this.message.channel = this.message.createRtmChannel(
         this.message.rtmclient
       );
-      const rtmDetails = await this.common.generateRtmTokenAndUid(uid);
+
 
       await this.message.signalLogin(
         this.message.rtmclient,
         rtmDetails.token,
         uid.toString()
       );
-      await this.message.joinchannel(this.message.channel);
-      await this.message.setLocalAttributes(
-        this.message.rtmclient,
-        this.userName
-      );
-      this.message.rtmEvents(this.message.rtmclient);
-      this.message.receiveChannelMessage(
-        this.message.channel,
-        this.message.rtmclient
-      );
+      // await this.message.joinchannel(this.message.channel);
+      // await this.message.setLocalAttributes(
+      //   this.message.rtmclient,
+      //   this.userName
+      // );
+      // this.message.rtmEvents(this.message.rtmclient);
+      // this.message.receiveChannelMessage(
+      //   this.message.channel,
+      //   this.message.rtmclient
+      // );
     } catch (error) {
       console.log(error);
     }

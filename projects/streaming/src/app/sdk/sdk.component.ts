@@ -96,7 +96,7 @@ export class SdkComponent implements OnInit {
       this.message.rtmclient = this.message.createRTMClient(this.stream.options.appId);
 
       // this.message.channel = this.message.createRtmChannel(this.message.rtmclient);
-      const rtmDetails = await this.common.generateRtmTokenAndUid(uid);
+      const rtmDetails = await this.common.generateRtmTokenAndUid(uid.toString());
 
       await this.message.signalLogin(
         this.message.rtmclient,
@@ -170,7 +170,7 @@ console.log(this.selectedValue, '');
 
     async switchVideo () {
  console.log(this.selectedValue, '');
- 
+
     await this.stream.switchCamera(this.selectedValue.label, this.stream.rtc.localVideoTrack)
 
     }
@@ -184,7 +184,7 @@ console.log(this.selectedValue, '');
 
 
 
-    
+
   cohost() {
     const s = {
       channelName: 'test',
@@ -284,11 +284,11 @@ console.log(this.selectedValue, '');
 
 
         if (vol > 0.05 && !this.speaking) {
-          // setSpeaking(true) 
+          // setSpeaking(true)
           console.log('user speaking');
           this.speaking = true;
           setTimeout(() => {
-            // setSpeaking(false) 
+            // setSpeaking(false)
             console.log('user not speaking');
             this.speaking = false;
 
@@ -316,13 +316,13 @@ console.log(this.selectedValue, '');
 
   setVol(e) {
 
-    
+
     const user = this.stream.rtc.localAudioTrack;
     let vol = parseInt(e.target.value); !isNaN(vol) && vol >= 0 && vol <= 1000 && (user.setVolume(parseInt(e.target.value)))
     console.log(e.target.value,vol, 'setVolume');
   }
 
-  
+
   async end() {
     this.router.navigate(["endcall"]);
 
