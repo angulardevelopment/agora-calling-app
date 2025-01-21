@@ -15,21 +15,21 @@ export class MessagingService {
   constructor(private common: CommonService, private stream: StreamService) { }
 
   // pass your appid in createInstance
-  createRTMClient(id: string) {
-    const client = AgoraRTM.createInstance(id, {
-      enableLogUpload: false,
-    });
-    return client;
+  createRTMClient(uid: string) {
+    // const client = AgoraRTM.createInstance(id, {
+    //   enableLogUpload: false,
+    // });
+    // return client;
 
-    // const signalingEngine = new AgoraRTM.RTM(this.stream.options.appId, id);
-    // return signalingEngine;
+    const signalingEngine = new AgoraRTM.RTM(this.stream.options.appId, uid);
+    return signalingEngine;
   }
 
   async signalLogin(client, token: string, uid: string) {
     console.log(client, token, uid, this, 'signalLogin');
     try {
       // uid
-      await client.login({ token, uid });
+      await client.login({ token });
     } catch (error) {
       console.log(error);
     }
@@ -61,6 +61,35 @@ export class MessagingService {
     client.on('PeersOnlineStatusChanged', (status) => {
       console.log('PeersOnlineStatusChanged ', status);
     });
+
+    // Message event handler.
+    client.addEventListener("message", event => {
+  this.showMessage(event.publisher, event.message);
+});
+
+// Presence event handler.
+client.addEventListener("presence", event => {
+  if (event.eventType === "SNAPSHOT") {
+    this.showMessage("INFO", "I Join");
+  }
+  else {
+    this.showMessage("INFO", event.publisher + " is " + event.eventType);
+  }
+});
+
+// Connection state changed event handler.
+client.addEventListener("status", event => {
+  // The current connection state.
+  const currentState = event.state;
+  // The reason why the connection state changes.
+  const changeReason = event.reason;
+  this.showMessage("INFO", JSON.stringify(event));
+});
+
+  }
+
+  private showMessage(publisher: string, message: string): void {
+    console.log(`${publisher}: ${message}`);
   }
 
   recievedMessage(text, peerId: string) {
@@ -170,6 +199,21 @@ export class MessagingService {
         /* Your code for handling events, such as a channel message-send failure. */
       });
   }
+
+  // Send a message to a channel
+ publishMessage = async (rtm, message, userId, msChannelName) => {
+  const payload = { type: "text", message: message };
+  const publishMessage = JSON.stringify(payload);
+  const publishOptions = { channelType: 'MESSAGE'}
+  try {
+    const result = await rtm.publish(msChannelName, publishMessage, publishOptions);
+    this.showMessage(userId, publishMessage);
+    console.log(result);
+  } catch (status) {
+    console.log(status);
+  }
+}
+
 
   async leaveChannel(client, channel) {
     if (channel) {

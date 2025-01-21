@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { FlexibleClassroomComponent } from './flexible-classroom/flexible-classroom.component';
 import { LiveComponent } from './live/live.component';
 import { EndCallComponent } from './end-call/end-call.component';
+import { SignalingComponent } from './signaling/signaling.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'endcall',
     component: EndCallComponent,
+  },
+  {
+    path: 'SignalingComponent',
+    component: SignalingComponent,
   }
 ];
 

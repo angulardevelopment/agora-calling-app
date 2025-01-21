@@ -14,6 +14,8 @@ import AgoraRTC from 'agora-rtc-sdk-ng';
     standalone: false
 })
 export class StagingComponent implements OnInit {
+  @ViewChild('streamVideo') video;
+
   hideBtns = true;
   userName = '';
   urlId: string;
@@ -21,7 +23,6 @@ export class StagingComponent implements OnInit {
   isVideoStreaming = true;
   toggleCamera = true;
   toggleAudio = true;
-  @ViewChild('streamVideo') video;
 
   constructor(
     public stream: StreamService,
@@ -80,15 +81,8 @@ export class StagingComponent implements OnInit {
         this.stream.agoraServerEvents(this.stream.rtc);
         this.deviceToggle();
         this.router.navigate([`/user/${this.urlId}`]);
-        await this.stream.localUser(
-          rtcDetails.token,
-          uid,
-          'host',
-          this.stream.rtc
-        );
-
+        await this.stream.localUser(rtcDetails.token, uid,'host',this.stream.rtc);
         this.message.sendMessageChannel(this.message.channel, 'ping');
-
         this.hideBtns = false;
       } else {
         alert('Enter name to start call');
@@ -124,12 +118,11 @@ export class StagingComponent implements OnInit {
     try {
       const rtmDetails = await this.common.generateRtmTokenAndUid(uid.toString());
 
-      this.message.rtmclient = this.message.createRTMClient(this.stream.options.appId);
+      this.message.rtmclient = this.message.createRTMClient(uid.toString());
 
-      this.message.channel = this.message.createRtmChannel(
-        this.message.rtmclient
-      );
-
+      // this.message.channel = this.message.createRtmChannel(
+      //   this.message.rtmclient
+      // );
 
       await this.message.signalLogin(
         this.message.rtmclient,
@@ -141,7 +134,7 @@ export class StagingComponent implements OnInit {
       //   this.message.rtmclient,
       //   this.userName
       // );
-      // this.message.rtmEvents(this.message.rtmclient);
+      this.message.rtmEvents(this.message.rtmclient);
       // this.message.receiveChannelMessage(
       //   this.message.channel,
       //   this.message.rtmclient
