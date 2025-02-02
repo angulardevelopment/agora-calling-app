@@ -11,7 +11,12 @@ import { Router } from '@angular/router';
 export class AppComponent {
   title = 'streaming';
   hide = true;
+  
   constructor(private router: Router, public common: CommonService) { }
+
+  ngOnInit() {
+    this.common.getAppDetails();
+  }
 
   open(value: number) {
     if (value == 3) {

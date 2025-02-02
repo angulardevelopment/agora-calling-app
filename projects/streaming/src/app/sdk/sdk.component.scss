@@ -1,293 +1,227 @@
-.banner {
-  padding: 0;
-  background-color: #52575c;
+.call-header {
+  background-color: #313131;
+}
+
+.diplay-view {
+  height: 100vh;
+}
+
+.my-row {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 10% 80% 10%;
+}
+
+.meeting-info {
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: row;
+  place-content: space-around;
+}
+
+.footer {
+  padding: 15px 10px;
+  display: flex;
+  flex-direction: row;
+  place-content: space-around;
+}
+
+.meeting-name {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: #fff;
+}
+
+.meeting-info span {
   color: white;
 }
-
-.banner-text {
-  padding: 8px 20px;
-  margin: 0;
+.meeting-info i {
+  font-size: 25px;
+  color: #fff;
 }
 
-.screen{
-  border: 1px solid;
-    height: 1000px;
-    width: 1000px;
+.members {
+  position: relative;
+  border: 1px solid #1b1b1b;
+  background-color: #292929;
+  box-shadow:  0 0 10px 10px #252525;
+  border-radius: 10px;
+  height: 100%;
 }
 
-#join-form {
-  margin-top: 10px;
+.members .my-video {
+  position: absolute;
+  height: 150px;
+  width: 90px;
+  background-color: #494949;
+  border: 1px solid #181818;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 1rem;
+  right: 1rem;
 }
 
-.tips {
-  font-size: 12px;
-  margin-bottom: 2px;
-  color: gray;
+.members .my-video i {
+  color: white;
+  font-size: 30px;
 }
 
-.join-info-text {
-  margin-bottom: 2px;
+
+/*
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+} */
+.footer i{
+  font-size: 25px;
+  margin: 10px;
 }
 
-input {
+.header-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.users {
+  height: 100%;
   width: 100%;
-  margin-bottom: 2px;
-}
+  display: grid;
+  grid-template-columns: 100% !important;
+  grid-template-rows: 100%;
 
-.player {
-  width: 480px;
-  height: 320px;
-}
-
-.player-name {
-  margin: 8px 0;
-}
-
-#success-alert, #success-alert-with-token {
-  display: none;
-}
-
-@media (max-width: 640px) {
-  .player {
-    width: 320px;
-    height: 240px;
-  }
-}
-
-.container { margin-top: 20px;
-  margin-left: 15px;}
-  #chat-content { height: 180px;  overflow-y: scroll; }
-
-  #remote-videos{
+  .local-user {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    width: 50%;
+    margin: 0 25%;
+
+    p {
+      position: absolute;
+      bottom: 1rem;
+      color: white;
+    }
   }
 
 
-  .call-header {
-    background-color: #313131;
-  }
-  
-  .diplay-view {
-    height: 100vh;
-  }
-  
-  .my-row {
-    height: 100%;
+  .other-users {
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 10% 80% 10%;
-  }
-  
-  .meeting-info {
-    padding: 15px 10px;
-    display: flex;
-    flex-direction: row;
-    place-content: space-around;
-  }
-  
-  .footer {
-    padding: 15px 10px;
-    display: flex;
-    flex-direction: row;
-    place-content: space-around;
-  }
-  
-  .meeting-name {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: #fff;
-  }
-  
-  .meeting-info span {
-    color: white;
-  }
-  .meeting-info i {
-    font-size: 25px;
-    color: #fff;
-  }
-  
-  .members {
-    position: relative;
-    border: 1px solid #1b1b1b;
-    background-color: #292929;
-    box-shadow:  0 0 10px 10px #252525;
-    border-radius: 10px;
+    grid-template-rows: 50% 50%;
     height: 100%;
-  }
-  
-  .members .my-video {
-    position: absolute;
-    height: 150px;
-    width: 90px;
-    background-color: #494949;
-    border: 1px solid #181818;
-    border-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    bottom: 1rem;
-    right: 1rem;
-  }
-  
-  .members .my-video i {
-    color: white;
-    font-size: 30px;
-  }
-  
-  
-  /*
-  .footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  } */
-  .footer i{
-    font-size: 25px;
-    margin: 10px;
-  }
-  
-  .header-icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .footer-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .users {
-    height: 100%;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100% !important;
-    grid-template-rows: 100%;
-  
-    .local-user {
+
+    .other-user {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
-  
-      width: 50%;
-      margin: 0 25%;
-  
+      background-color: #313131;
+
       p {
         position: absolute;
         bottom: 1rem;
         color: white;
       }
     }
-  
-  
-    .other-users {
-      display: grid;
-      grid-template-columns: 100%;
-      grid-template-rows: 50% 50%;
-      height: 100%;
-  
-      .other-user {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #313131;
-  
-        p {
-          position: absolute;
-          bottom: 1rem;
-          color: white;
-        }
-      }
+  }
+}
+
+.video-align {
+  width: 50%;
+                                height: 100%;
+}
+
+.enableDisable {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .users {
+    grid-template-columns: 100%!important;
+    grid-template-rows: 100%!important;
+
+    .local-user {
+      margin: 0;
+      width: 100%;
     }
   }
-  
-  .video-align {
+}
+
+.only-local-user {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .user {
     width: 50%;
-                                  height: 100%;
-  }
-  
-  .enableDisable {
-    display: none;
-  }
-  
-  @media only screen and (max-width: 600px) {
-    .users {
-      grid-template-columns: 100%!important;
-      grid-template-rows: 100%!important;
-  
-      .local-user {
-        margin: 0;
-        width: 100%;
-      }
-    }
-  }
-  
-  .only-local-user {
-    height: 100%;
-    width: 100%;
     display: flex;
     justify-content: center;
-  
-    .user {
-      width: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #313131;
-    }
+    align-items: center;
+    background-color: #313131;
   }
-  
-  .my-video-camera-slash {
-    color: #fff!important;
-    width: 100px!important;
-    height: 100px!important;
-  }
-  
-  .player {
-    width: 100%;
-    height: 100%;
-  
-  }
-  
-  .my-class {
-    grid-template-rows: 100%!important;
-  }
-  
-  .my-class2 {
-    grid-template-rows: 50% 50% !important;
-  }
-  
+}
+
+.my-video-camera-slash {
+  color: #fff!important;
+  width: 100px!important;
+  height: 100px!important;
+}
+
+.player {
+  width: 100%;
+  height: 100%;
+
+}
+
+.my-class {
+  grid-template-rows: 100%!important;
+}
+
+.my-class2 {
+  grid-template-rows: 50% 50% !important;
+}
+
+.my-users-class {
+  grid-template-columns: 50% 50%!important;
+  grid-template-rows: 100%;
+}
+
+.my-users-class2 {
+  grid-template-columns: 50% 50%!important;
+  grid-template-rows: 100%!important;
+}
+
+
+@media only screen and (max-width: 600px) {
   .my-users-class {
-    grid-template-columns: 50% 50%!important;
-    grid-template-rows: 100%;
+    grid-template-columns: 100%!important;
+    grid-template-rows: 50% 50%!important;
   }
-  
   .my-users-class2 {
-    grid-template-columns: 50% 50%!important;
-    grid-template-rows: 100%!important;
+    grid-template-columns: 100%!important;
+    grid-template-rows: 33%!important;
   }
-  
-  
-  @media only screen and (max-width: 600px) {
-    .my-users-class {
-      grid-template-columns: 100%!important;
-      grid-template-rows: 50% 50%!important;
-    }
-    .my-users-class2 {
-      grid-template-columns: 100%!important;
-      grid-template-rows: 33%!important;
-    }
-  
-  }
-  
+
+}

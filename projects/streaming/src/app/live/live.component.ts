@@ -21,7 +21,7 @@ export class LiveComponent implements OnInit {
   async joinLiveCall() {
     try {
       const uid = this.common.generateUid();
-      const rtcDetails = await this.common.generateTokenAndUid(uid);
+      const rtcDetails = await this.common.generatertcTokenAndUid(uid);
       this.stream.rtcLiveUser.client = this.stream.createRTCClient('live');
       this.stream.agoraServerEvents(this.stream.rtcLiveUser);
       await this.stream.localUser(

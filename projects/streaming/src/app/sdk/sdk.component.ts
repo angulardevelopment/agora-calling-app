@@ -11,22 +11,21 @@ import { timer } from 'rxjs';
 import { StreamService } from '../services/stream.service';
 
 @Component({
-    selector: 'app-sdk',
-    templateUrl: './sdk.component.html',
-    styleUrls: ['./sdk.component.scss'],
-    standalone: false
+  selector: 'app-sdk',
+  templateUrl: './sdk.component.html',
+  styleUrls: ['./sdk.component.scss'],
+  standalone: false,
 })
 export class SdkComponent implements OnInit {
-  userName: string;
   urlId: string;
   speaking = true;
   selectedValue;
   externalaudiodevices;
   externalvideodevices;
-
   second;
   hours;
   minutes;
+  userName; // current user
   constructor(
     public stream: StreamService,
     public api: ApiService,
@@ -36,26 +35,38 @@ export class SdkComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    this.urlId = this.route.snapshot.params['id'];
-    if (this.urlId == '1') {
-      this.userName = this.common.name1;
-    } else {
-      this.userName = this.common.name2;
-    }
+    
+  }
 
+  ngOnInit() {
+    this.checkUserSpeakingAlert();
+    this.getall();
+    this.time();
+    this.initialize();
+  }
+
+  initialize(){
+    this.urlId = this.route.snapshot.params['id'];
     this.stream.updateUserInfo.subscribe(async (id) => {
       if (id) {
         try {
-          const user = await this.message.rtmclient.getUserAttributes(
-            id.toString()
-          ); // senderId means uid getUserInfo
-          console.log('user getUserInfo');
+          const result =
+            await this.message.rtmclient.storage.getChannelMetadata(
+              this.stream.options.channel,
+              'MESSAGE'
+            );
+          const getUserInfo =
+            await this.message.rtmclient.storage.getUserMetadata({
+              userId: id
+            });
+
+          console.log('user updateUserInfo', id, result, getUserInfo, this);
 
           for (let index = 0; index < this.stream.remoteUsers.length; index++) {
             const element = this.stream.remoteUsers[index];
           console.log(element, 'user getUserInfo remoteUsers');
             if (element.uid == id) {
-              element.name = user.name;
+              element.name = getUserInfo.metadata.name.value;
             }
           }
         } catch (error) {
@@ -65,16 +76,10 @@ export class SdkComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    this.checkUserSpeakingAlert();
-    this.getall();
-    this.time();
-  }
-
   // used in screen share
-  async rtclogin(uid: number) {
+  async rtclogin(uid: string) {
     try {
-      const rtcDetails = await this.common.generateTokenAndUid(uid);
+      const rtcDetails = await this.common.generatertcTokenAndUid(uid);
       this.stream.rtcscreenshare.client = this.stream.createRTCClient('host');
       // await this.stream.setRole( this.stream.rtcscreenshare.client, 'host')
 
@@ -93,24 +98,26 @@ export class SdkComponent implements OnInit {
   async rtmUserLogin() {
     try {
       const uid = this.common.generateUid();
-      this.message.rtmclient = this.message.createRTMClient(this.stream.options.appId);
+      this.message.rtmclient = this.message.createRTMClient(
+        this.stream.options.appId
+      );
 
       // this.message.channel = this.message.createRtmChannel(this.message.rtmclient);
-      const rtmDetails = await this.common.generateRtmTokenAndUid(uid.toString());
+      const rtmDetails = await this.common.generateRtmTokenAndUid(uid);
 
       await this.message.signalLogin(
         this.message.rtmclient,
         rtmDetails.token,
         uid.toString()
       );
-      // await this.message.joinchannel(this.message.channel);
+      await this.message.joinchannel(this.message.channel);
       await this.message.setLocalAttributes(
         this.message.rtmclient,
         this.userName,
         { isUserPresenting: '1' }
       );
       this.message.rtmEvents(this.message.rtmclient);
-      // this.message.receiveChannelMessage(this.message.channel, this.message.rtmclient);
+      this.message.receiveChannelMessage(this.message.rtmclient);
       return uid;
     } catch (error) {
       console.log(error);
@@ -126,13 +133,17 @@ export class SdkComponent implements OnInit {
   }
 
   channelMsg() {
-    this.message.sendMessageChannel(
-      this.message.channel,
-      'test channel message'
+    // this.message.sendMessageChannel(
+    //   this.message.channel,
+    //   'test channel message'
+    // );
+    this.message.publishMessage(
+      this.message.rtmclient,
+      'test channel message',
+      this.message.channel
     );
+    this.message.receiveChannelMessage(this.message.rtmclient);
   }
-
-
 
   async shareScreen() {
     try {
@@ -159,118 +170,106 @@ export class SdkComponent implements OnInit {
   unmute() {
     this.stream.rtc.localAudioTrack.setEnabled(true);
     this.stream.rtc.audio = true;
-
   }
 
-  async switchAudio () {
-console.log(this.selectedValue, '');
+  async switchAudio() {
+    console.log(this.selectedValue, '');
 
-    await this.stream.switchMicrophone(this.selectedValue.label, this.stream.rtc.localAudioTrack)
-    }
+    await this.stream.switchMicrophone(
+      this.selectedValue.label,
+      this.stream.rtc.localAudioTrack
+    );
+  }
 
-    async switchVideo () {
- console.log(this.selectedValue, '');
+  async switchVideo() {
+    console.log(this.selectedValue, '');
 
-    await this.stream.switchCamera(this.selectedValue.label, this.stream.rtc.localVideoTrack)
+    await this.stream.switchCamera(
+      this.selectedValue.label,
+      this.stream.rtc.localVideoTrack
+    );
+  }
 
-    }
-
-    async getall(){
-      // this.externaldevices = await this.stream.alldevices();
-      this.externalaudiodevices = await this.stream.allaudiodevices();
-      this.externalvideodevices = await this.stream.getVideodevices();
-
-    }
-
-
-
+  async getall() {
+    // this.externaldevices = await this.stream.alldevices();
+    this.externalaudiodevices = await this.stream.allaudiodevices();
+    this.externalvideodevices = await this.stream.getVideodevices();
+  }
 
   cohost() {
     const s = {
       channelName: 'test',
       uid: this.common.uid1,
       token: this.stream.rtc.token,
-    }
+    };
     const d = {
       channelName: 'test',
       uid: 123,
       token: 'yourDestToken',
-    }
+    };
     this.stream.initiateMediaStreamRelay(s, d);
   }
 
   audioVisualizer() {
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(function (stream) {
+        let audioContext = new AudioContext();
 
-      let audioContext = new AudioContext();
+        let analyser = audioContext.createAnalyser();
 
-      let analyser = audioContext.createAnalyser();
+        let microphone = audioContext.createMediaStreamSource(stream);
 
-      let microphone = audioContext.createMediaStreamSource(stream);
+        let javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
 
-      let javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+        analyser.smoothingTimeConstant = 0.8;
 
-      analyser.smoothingTimeConstant = 0.8;
+        analyser.fftSize = 1024;
 
-      analyser.fftSize = 1024;
+        microphone.connect(analyser);
 
-      microphone.connect(analyser);
+        analyser.connect(javascriptNode);
 
-      analyser.connect(javascriptNode);
+        javascriptNode.connect(audioContext.destination);
 
-      javascriptNode.connect(audioContext.destination);
+        javascriptNode.onaudioprocess = function () {
+          var array = new Uint8Array(analyser.frequencyBinCount);
 
-      javascriptNode.onaudioprocess = function () {
+          analyser.getByteFrequencyData(array);
 
-        var array = new Uint8Array(analyser.frequencyBinCount);
+          var values = 0;
 
-        analyser.getByteFrequencyData(array);
+          var length = array.length;
 
-        var values = 0;
+          for (var i = 0; i < length; i++) {
+            values += array[i];
+          }
 
+          var average = values / length;
 
+          if (Math.round(average) > 15) {
+            console.log(Math.round(average));
 
-        var length = array.length;
-
-        for (var i = 0; i < length; i++) {
-
-          values += (array[i]);
-
-        }
-
-
-
-        var average = values / length;
-
-
-
-        if (Math.round(average) > 15) {
-
-          console.log(Math.round(average));
-
-          // document.getElementById("lvl").innerHTML = Math.round(average)-10;
-
-        }
-
-
-
-      }
-
-    })
+            // document.getElementById("lvl").innerHTML = Math.round(average)-10;
+          }
+        };
+      })
 
       .catch(function (err) {
-
         /* handle the error */
-
       });
   }
 
   // if user is speaking show alert you are on mute
   checkUserSpeakingAlert() {
     const startAudioCheck = async () => {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: false,
+        audio: true,
+      });
       const audioContext = new AudioContext();
-      const mediaStreamAudioSourceNode = audioContext.createMediaStreamSource(mediaStream);
+      const mediaStreamAudioSourceNode =
+        audioContext.createMediaStreamSource(mediaStream);
       const analyserNode = audioContext.createAnalyser();
       mediaStreamAudioSourceNode.connect(analyserNode);
       const pcmData = new Float32Array(analyserNode.fftSize);
@@ -278,10 +277,10 @@ console.log(this.selectedValue, '');
       const checkAudio = () => {
         analyserNode.getFloatTimeDomainData(pcmData);
         let sumSquares = 0.0;
-        for (const amplitude of pcmData) { sumSquares += amplitude * amplitude; }
-        let vol = Math.sqrt(sumSquares / pcmData.length)
-
-
+        for (const amplitude of pcmData) {
+          sumSquares += amplitude * amplitude;
+        }
+        let vol = Math.sqrt(sumSquares / pcmData.length);
 
         if (vol > 0.05 && !this.speaking) {
           // setSpeaking(true)
@@ -291,41 +290,40 @@ console.log(this.selectedValue, '');
             // setSpeaking(false)
             console.log('user not speaking');
             this.speaking = false;
-
-          }, 2000)
+          }, 2000);
         }
       };
 
       if (this.stream.rtc.audio === false) {
-        this.stream.rtc.checkSpeakingInterval = setInterval(checkAudio, 100)
+        this.stream.rtc.checkSpeakingInterval = setInterval(checkAudio, 100);
+      } else {
+        clearInterval(this.stream.rtc.checkSpeakingInterval);
       }
-      else {
-        clearInterval(this.stream.rtc.checkSpeakingInterval)
-      }
-    }
+    };
     if (this.stream.rtc.client) {
-      startAudioCheck()
+      startAudioCheck();
     }
     //   return () => {
     //     // eslint-disable-next-line
-    clearInterval(this.stream.rtc.checkSpeakingInterval)
+    clearInterval(this.stream.rtc.checkSpeakingInterval);
     //   }
     //   // eslint-disable-next-line
     // }, [user.audio])
   }
 
   setVol(e) {
-
-
     const user = this.stream.rtc.localAudioTrack;
-    let vol = parseInt(e.target.value); !isNaN(vol) && vol >= 0 && vol <= 1000 && (user.setVolume(parseInt(e.target.value)))
-    console.log(e.target.value,vol, 'setVolume');
+    let vol = parseInt(e.target.value);
+    !isNaN(vol) &&
+      vol >= 0 &&
+      vol <= 1000 &&
+      user.setVolume(parseInt(e.target.value));
+    console.log(e.target.value, vol, 'setVolume');
   }
 
-
   async end() {
-    this.router.navigate(["endcall"]);
-
+    this.router.navigate(['endcall']);
+    this.rtmclientChannelLogout(); // leave Channel
     this.endMeet();
     await this.stream.leaveCall(this.stream.rtc);
     this.message.leaveChannel(this.message.rtmclient, this.message.channel);
@@ -343,48 +341,43 @@ console.log(this.selectedValue, '');
       console.log(error);
     }
     // this.router.navigate([`/staging/${this.urlId}`]);
-
   }
 
   endMeet() {
-    var hms = `${this.hours}:${this.minutes}:${this.second}`;   // your input string
+    var hms = `${this.hours}:${this.minutes}:${this.second}`; // your input string
     var a = hms.split(':'); // split it at the colons
 
     // minutes are worth 60 seconds. Hours are worth 60 minutes.
-    var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
 
-    let d = new Date;
-    let dformat = [d.getFullYear(), d.getMonth()+1,
-               d.getDate(),
-               ].join('-')+' '+
-              [d.getHours(),
-               d.getMinutes(),
-               d.getSeconds()].join(':');
+    let d = new Date();
+    let dformat =
+      [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-') +
+      ' ' +
+      [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
     const formData = new FormData();
     // formData.append('short_url', this.activatedRoute.snapshot.params.id);
     // formData.append('channel_id', this.stream.meetingDetail.channelName);
     // formData.append('start_time',  dformat);
     // formData.append('duration', seconds.toString());
-//     this.api.postCall('agora/save-time/', formData).subscribe((res)=>{
+    //     this.api.postCall('agora/save-time/', formData).subscribe((res)=>{
 
-// console.log(res, 'res');
+    // console.log(res, 'res');
 
-//     });
+    //     });
   }
-
 
   showSuccess() {
     this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
-  time(){
+  time() {
     this.second = timer(0, 1000);
-this.second.subscribe(t => {
+    this.second.subscribe((t) => {
+      this.second = t % 60;
+      this.hours = Math.floor(t / 60 / 60);
 
-this.second = t % 60;
-   this.hours = Math.floor(t / 60 / 60);
-
-this.minutes = Math.floor(t / 60)
-})
+      this.minutes = Math.floor(t / 60);
+    });
   }
 }

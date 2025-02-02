@@ -62,6 +62,12 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false
             }
           }
         },
@@ -73,6 +79,9 @@
           "configurations": {
             "production": {
               "buildTarget": "streaming:build:production"
+            },
+            "development": {
+              "buildTarget": "streaming:build:development"
             }
           }
         },

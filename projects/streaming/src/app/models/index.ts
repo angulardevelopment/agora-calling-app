@@ -2,7 +2,7 @@ import AgoraRTC, { IAgoraRTCClient, LiveStreamingTranscodingConfig, ICameraVideo
 
 
 export interface IUser {
-  uid?: number;
+  uid?: string;
   name?: string;
   token?: string;
 }
@@ -16,7 +16,7 @@ export interface IRtc {
   video?: boolean
 }
 
-export interface rtmUser {
-  message: string;
-  user: any;
-}
+// export interface rtmUser {
+//   message: string;
+//   user: any;
+// }

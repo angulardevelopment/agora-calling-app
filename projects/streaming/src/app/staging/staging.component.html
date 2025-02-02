@@ -44,27 +44,53 @@
           />
         </p>
         <div class="controls">
-          <div class="video-status controls-icon" style="background-color: white; color: #838383">
-            <i class="fa fa-video" aria-hidden="true" *ngIf="toggleCamera" (click)="setVideo()"></i>
-            <!-- <i class="fas fa-video-slash" aria-hidden="true" *ngIf="!toggleCamera" (click)="setVideo()"></i> -->
-            <img src="../../assets/video-slash-solid.svg" alt="" *ngIf="!toggleCamera" (click)="setVideo()" style="width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 5px;
-            font-size: 25px;
-            border: 1px solid #838383;
-            border-radius: 50px;">
-            </div>
-            <div class="mic-status controls-icon"
-              style="background-color: white;
-              color: #838383">
-            <i class="fa fa-microphone" aria-hidden="true" *ngIf="toggleAudio" (click)="setAudio()"></i>
-            <i class="fa fa-microphone-slash" aria-hidden="true" *ngIf="!toggleAudio" (click)="setAudio()"></i>
-            </div>
-            <button type="button"  (click)="startCall()">Join Meeting</button>
-            <!-- [routerLink]="['/main/',activatedRoute.snapshot.params.id, activatedRoute.snapshot.params.channel]"  -->
+          <div
+            class="video-status controls-icon"
+            style="background-color: white; color: #838383"
+          >
+            <i
+              class="fa fa-video"
+              aria-hidden="true"
+              *ngIf="toggleCamera"
+              (click)="setVideo()"
+            ></i>
+            <i class="fas fa-video-slash" aria-hidden="true" *ngIf="!toggleCamera" (click)="setVideo()"></i>
+            <img
+              src="../../assets/video-slash-solid.svg"
+              alt=""
+              *ngIf="!toggleCamera"
+              (click)="setVideo()"
+              style="
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 5px;
+                font-size: 25px;
+                border: 1px solid #838383;
+                border-radius: 50px;
+              "
+            />
+          </div>
+          <div
+            class="mic-status controls-icon"
+            style="background-color: white; color: #838383"
+          >
+            <i
+              class="fa fa-microphone"
+              aria-hidden="true"
+              *ngIf="toggleAudio"
+              (click)="setAudio()"
+            ></i>
+            <i
+              class="fa fa-microphone-slash"
+              aria-hidden="true"
+              *ngIf="!toggleAudio"
+              (click)="setAudio()"
+            ></i>
+          </div>
+          <button type="button" (click)="startCall()">Join Meeting</button>
         </div>
       </div>
     </div>

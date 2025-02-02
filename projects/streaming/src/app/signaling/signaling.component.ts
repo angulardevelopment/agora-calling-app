@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import AgoraRTM   from 'agora-rtm-sdk';
+import { StreamService } from '../services/stream.service';
+import { CommonService } from '../services/common.service';
 const { RTM } = AgoraRTM;
 @Component({
   selector: 'app-signaling',
@@ -9,24 +11,37 @@ const { RTM } = AgoraRTM;
 })
 export class SignalingComponent {
 
-  ngOnInit() {
+  constructor(  public stream: StreamService,
+    private common: CommonService
+  ) { }
+
+  async ngAfterViewInit() {
+    await this.common.getAppDetails();
     let rtm;
     let textInput = document.getElementById("textInput") as HTMLInputElement;
     let textDisplay = document.getElementById("textDisplay") as HTMLInputElement;
     // Fill in the App ID of your project.
-    const appId = "48b158ccc64343cf9973a8f5df311f2a";
+    const appId = this.stream.options.appId;
+    const userId = this.stream.options.channel;
+
+        const rtmDetails = await this.common.generateRtmTokenAndUid(userId);
     // Fill in your user ID.
-    const userId = "12345";
+    // const userId = "12345";
     // Fill in your channel name.
     const msChannelName = "Chat_room";
     const buttonClick = () => {
       publishMessage(textInput.value);
       textInput.value = '';
     }
+    const submitButton = document.getElementById('submitButton');
+
+// Add an event listener to the button
+submitButton.addEventListener('click', buttonClick);
     const setupRTM = async () => {
       // Initialize the RTM client.
       try {
         rtm = new RTM(appId, userId);
+        console.log(this, rtm, 'rtm');
       } catch (status) {
         console.log("Error");
         console.log(status);
@@ -55,7 +70,7 @@ export class SignalingComponent {
       });
       // Log in the RTM server.
       try {
-        const result = await rtm.login({  token: '00648b158ccc64343cf9973a8f5df311f2aIADo1TkmWd9A6Irh1YSLryYyDIkyq/nwiIoT7nq6OsXwahw69csAAAAAEACPRTI8xuSMZwEA6ANWoYtn' });
+        const result = await rtm.login({  token: rtmDetails.token });
         console.log(result);
       } catch (status) {
         console.log(status);

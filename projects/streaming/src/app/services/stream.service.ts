@@ -26,7 +26,7 @@ export class StreamService {
     token: '',
     checkSpeakingInterval: null,
     audio: true,
-    video: true
+    video: true,
   };
   rtcLiveUser: IRtc = {
     // For the local client.
@@ -44,26 +44,27 @@ export class StreamService {
     localScreenTrack: null,
     uid: null,
   };
-  name;
   videoStatus = true;
   audioStatus = false;
   errorValue;
   type;
+  name;
 
   // liveUsersList = [];
   options = {
     appId: '', // set your appid here
-    channel: 'test', // Set the channel name.
+    channel: '', // Set the channel name.
     // token: '', // Pass a token if your project enables the App Certificate.
     // uid: null
   };
+  // {name:'dafd', uid:'34'}, {name:'dafd1', uid:'341'}
   remoteUsers: IUser[] = []; // To add remote users in list
   updateUserInfo = new BehaviorSubject<any>(null); // to update remote users name
   isScreenShared = false;
-  presentingId = 0;
+  presentingId = '0';
 
-  constructor() { }
-    // create client instances for camera (client) and screen share (screenClient)
+  constructor() {}
+  // create client instances for camera (client) and screen share (screenClient)
   createRTCClient(type: string) {
     // h264- better detail at a higher motion
     // use the vp8 for better detail in low motion
@@ -79,12 +80,12 @@ export class StreamService {
     let currentCam = cams.find((cam) => cam.label === label);
     await localTracks.setDevice(currentCam.deviceId);
   }
-  async getVideodevices(){
-  let cams = await AgoraRTC.getCameras(); //  all cameras devices you can use
-  return cams;
+  async getVideodevices() {
+    let cams = await AgoraRTC.getCameras(); //  all cameras devices you can use
+    return cams;
   }
   // To join a call with tracks (video or audio)
-  async localUser(token: string, uuid: number, type: string, rtc: IRtc) {
+  async localUser(token: string, uuid: string, type: string, rtc: IRtc) {
     if (type == 'live') {
       await this.setRole(rtc, 'audience');
     }
@@ -103,8 +104,9 @@ export class StreamService {
             sampleRate: 48000,
             stereo: true,
             bitrate: 128,
-          }
-        });
+          },
+        }
+      );
       // Create a video track from the video captured by a camera.
       this.rtc.localVideoTrack = await AgoraRTC.createCameraVideoTrack({
         encoderConfig: '120p',
@@ -126,9 +128,14 @@ export class StreamService {
   }
 
   async ownAudioSource(rtc) {
-    const media = await navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-    let audioTrack = media.getAudioTracks()[0]
-    rtc.current.localAudioTrack = AgoraRTC.createCustomAudioTrack({ mediaStreamTrack: audioTrack });
+    const media = await navigator.mediaDevices.getUserMedia({
+      video: false,
+      audio: true,
+    });
+    let audioTrack = media.getAudioTracks()[0];
+    rtc.current.localAudioTrack = AgoraRTC.createCustomAudioTrack({
+      mediaStreamTrack: audioTrack,
+    });
   }
 
   async shareScreen(user: IUser) {
@@ -163,7 +170,7 @@ export class StreamService {
     return localScreenTrack;
   }
 
-  agoraServerEvents(rtc: IRtc, uid1?: number, uid2?: number) {
+  agoraServerEvents(rtc: IRtc, uid1?: string, uid2?: string) {
     // 2 used
     rtc.client.on('user-published', async (user, mediaType) => {
       console.log(user, mediaType, 'user-published');
@@ -198,7 +205,7 @@ export class StreamService {
     rtc.client.on('user-joined', (user) => {
       let id = user.uid;
       if (uid1 != id && this.rtcscreenshare.uid != id && uid2 != id) {
-        this.remoteUsers.push({ uid: +id });
+        this.remoteUsers.push({ uid: id.toString() });
         this.updateUserInfo.next(id);
       }
       console.log('user-joined', user, this.remoteUsers, 'event1');
@@ -253,7 +260,6 @@ export class StreamService {
     rtc.client.on('track-ended', () => {
       console.log('track-ended', 'event17');
     });
-
   }
   // To leave channel-
   async leaveCall(rtc: IRtc) {
@@ -480,27 +486,24 @@ export class StreamService {
     let currentMic = mics.find((mic) => mic.label === label);
     await localTracks.setDevice(currentMic.deviceId);
   }
-  async allaudiodevices(){
-
-  let mics = await AgoraRTC.getMicrophones(); // all microphones devices you can use
-  return mics
+  async allaudiodevices() {
+    let mics = await AgoraRTC.getMicrophones(); // all microphones devices you can use
+    return mics;
   }
   async switchMicrophone2(val, localTracks) {
     let mics = await AgoraRTC.getDevices();
-  if(val.kind == 'audiooutput') {
-        let currentMic = mics.find(mic => mic.label === val.label);
-    await localTracks.setPlaybackDevice (currentMic.deviceId);
-  } else {
-        let currentMic2 = mics.find(mic => mic.label === val.label);
-    await localTracks.setDevice(currentMic2.deviceId);
+    if (val.kind == 'audiooutput') {
+      let currentMic = mics.find((mic) => mic.label === val.label);
+      await localTracks.setPlaybackDevice(currentMic.deviceId);
+    } else {
+      let currentMic2 = mics.find((mic) => mic.label === val.label);
+      await localTracks.setDevice(currentMic2.deviceId);
+    }
   }
-      }
 
-
-
-        async alldevices(){
-          return await AgoraRTC.getDevices()
-        }
+  async alldevices() {
+    return await AgoraRTC.getDevices();
+  }
 
   //Set Role
   async setRole(rtc: IRtc, role: ClientRole) {
@@ -558,18 +561,21 @@ export class StreamService {
       });
   }
 
-  switchStream = (client: IAgoraRTCClient, highOrLow: number, streamUid: number) => {
+  switchStream = (
+    client: IAgoraRTCClient,
+    highOrLow: number,
+    streamUid: number
+  ) => {
     if (highOrLow === 0) {
-      highOrLow = 1
-      console.log("Set to low");
-    }
-    else {
-      highOrLow = 0
-      console.log("Set to high");
+      highOrLow = 1;
+      console.log('Set to low');
+    } else {
+      highOrLow = 0;
+      console.log('Set to high');
     }
 
     client.setRemoteVideoStreamType(streamUid, highOrLow);
-  }
+  };
 
   async videoUpdate() {
     // this.videoStatus = flag;
@@ -578,10 +584,8 @@ export class StreamService {
       this.videoStatus = false;
     } else {
       this.videoStatus = true;
-
     }
     await this.rtc.localVideoTrack.setEnabled(this.videoStatus);
-
   }
 
   async audioUpdate() {
@@ -591,9 +595,7 @@ export class StreamService {
       this.audioStatus = false;
     } else {
       this.audioStatus = true;
-
     }
-    await this.rtc.localAudioTrack.setEnabled( this.audioStatus);
-
+    await this.rtc.localAudioTrack.setEnabled(this.audioStatus);
   }
 }

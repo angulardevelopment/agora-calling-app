@@ -45,10 +45,4 @@ export class FlexibleClassroomComponent implements OnInit {
   //   }
   //   )
   // }
-
-  // async dfvadf() {
-  //   const rtmDetails = await this.common.generateRtmTokenAndUid2('123456');
-  //   console.log(rtmDetails, 'rtmDetailsrtmDetails');
-
-  // }
 }
