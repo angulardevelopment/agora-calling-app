@@ -14,6 +14,10 @@ export interface IRtc {
   checkSpeakingInterval?: any;
   audio?: boolean,
   video?: boolean
+  name?: string;
+  videoStatus?: boolean;
+  audioStatus?: boolean;
+  uid?: string;
 }
 
 // export interface rtmUser {

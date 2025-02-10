@@ -20,6 +20,7 @@ I'm Sam, and I'm passionate about product engineering and web development. I cre
 
 
 ### About the app
+ng serve --configuration=development
 
 ### How to test the application.
 - [On Local open link click on user 1](http://localhost:4200/user/1)

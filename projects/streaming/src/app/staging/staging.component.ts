@@ -15,13 +15,12 @@ import AgoraRTC from 'agora-rtc-sdk-ng';
 })
 export class StagingComponent implements OnInit {
   @ViewChild('streamVideo') video;
-
-  hideBtns = true;
   urlId: string;
   subscriptions: Subscription[] = [];
   isVideoStreaming = true;
   toggleCamera = true;
   toggleAudio = true;
+  // localuid: string;
 
   constructor(
     public stream: StreamService,
@@ -32,17 +31,18 @@ export class StagingComponent implements OnInit {
     private common: CommonService
   ) {
     this.urlId = this.route.snapshot.params['id'];
-    if (this.urlId == '1') {
-      this.common.uid1 = this.common.generateUid();
-    } else {
-      this.common.uid2 = this.common.generateUid();
-    }
+    // if (this.urlId == '1') {
+    //   this.common.uid1 = this.common.generateUid();
+    // } else {
+    //   this.common.uid2 = this.common.generateUid();
+    // }
+    this.stream.rtc.uid = this.common.generateUid();
 //getUserInfo
     this.subscriptions.push(
       this.common.newUserJoined.subscribe(async (data) => {
         if (data.peerId) {
           try {
-          const result = await this.message.rtmclient.storage.getChannelMetadata(this.stream.options.channel, "MESSAGE");
+          const result = await this.message.rtmclient.storage.getChannelMetadata(this.stream.options.channel, this.common.chatType);
           const getUserAttributes = await this.message.rtmclient.storage.getUserMetadata({userId: data.peerId});
             console.log(data, result, this,getUserAttributes.metadata,'userinfo newUserJoined data.peerId');
           } catch (error) {
@@ -53,39 +53,46 @@ export class StagingComponent implements OnInit {
     );
   }
 
-  check() {
-    return this.urlId == '1' ? this.common.uid1 : this.common.uid2;
-  }
+  // check(urlId: string) {
+  //   return urlId == '1' ? this.common.uid1 : this.common.uid2;
+  // }
 
   async ngOnInit(): Promise<void> {
     try {
       // check gives uid based on urlId
-      await this.rtmUserLogin(this.check());
+      // this.localuid = this.check(this.urlId)
+      await this.rtmUserLogin(this.stream.rtc.uid);
+      this.setVideo();
+      this.setAudio();
+      console.log(this, 'ngOnInit');
     } catch (error) {
       console.log(error, 'error');
     }
   }
 
+startCallDemo(){
+  this.router.navigate([`/user/${this.urlId}`]);
+  // const uid = this.check('2');
+  this.stream.remoteUsers.push({ uid: this.stream.rtc.uid });
+}
+
   async startCall() {
     try {
-      if (this.stream.name) {
-        const uid = this.check();
-        const rtcDetails = await this.common.generatertcTokenAndUid(uid);
+      if (this.stream.rtc.name) {
+        // const uid = this.check(this.urlId);
+        const rtcDetails = await this.common.generatertcTokenAndUid(this.stream.rtc.uid, this.common.channelName);
         this.stream.rtc.token = rtcDetails.token;
         this.stream.rtc.client = this.stream.createRTCClient('host');
         this.stream.agoraServerEvents(this.stream.rtc);
         this.deviceToggle();
-        this.router.navigate([`/user/${this.urlId}`]);
-        await this.stream.localUser(rtcDetails.token, uid,'host',this.stream.rtc);
-
+        await this.stream.localUser(rtcDetails.token, this.stream.rtc.uid,'host',this.stream.rtc);
         await this.message.setLocalAttributes(
           this.message.rtmclient,
-          this.stream.name
-        );
-        
+          this.stream.rtc.name
+        );  
         this.message.publishMessage(this.message.rtmclient, 'ping', this.message.channel, );
         this.message.receiveChannelMessage(this.message.rtmclient);
-        this.hideBtns = false;
+        this.router.navigate([`/user/${this.urlId}`]);
       } else {
         alert('Enter name to start call');
       }
@@ -119,10 +126,10 @@ export class StagingComponent implements OnInit {
 
   async rtmUserLogin(uid: string) {
     try {
-      const rtmDetails = await this.common.generateRtmTokenAndUid(this.check());
+      const rtmDetails = await this.common.generateRtmTokenAndUid(this.stream.rtc.uid);
 
       this.message.rtmclient = this.message.createRTMClient(uid.toString());
-
+      this.message.rtmEvents(this.message.rtmclient);
       //test
       this.message.channel = this.message.createRtmChannel(
         this.message.rtmclient
@@ -138,7 +145,7 @@ export class StagingComponent implements OnInit {
       //   this.message.rtmclient,
       //   this.stream.name
       // );
-      this.message.rtmEvents(this.message.rtmclient);
+
       this.message.receiveChannelMessage(
         this.message.rtmclient
       );
@@ -149,10 +156,10 @@ export class StagingComponent implements OnInit {
 
   setVideo(){
 
-    if(!this.stream.videoStatus)
+    if(!this.stream.rtc.videoStatus)
     {
       this.toggleCamera=true;
-      this.stream.videoStatus=true;
+      this.stream.rtc.videoStatus=true;
       this.isVideoStreaming=true;
 
       this.openCamera();
@@ -161,7 +168,7 @@ export class StagingComponent implements OnInit {
     {
       this.stop();
       this.toggleCamera=false;
-      this.stream.videoStatus=false;
+      this.stream.rtc.videoStatus=false;
       this.isVideoStreaming=false;
 
     }
@@ -171,16 +178,16 @@ export class StagingComponent implements OnInit {
 
 async setAudio()
 {
-  if(!this.stream.audioStatus)
+  if(!this.stream.rtc.audioStatus)
   {
     this.toggleAudio=true;
-    this.stream.audioStatus=true;
+    this.stream.rtc.audioStatus=true;
 
   }
   else
   {
     this.toggleAudio=false;
-    this.stream.audioStatus=false;
+    this.stream.rtc.audioStatus=false;
 
 
   }

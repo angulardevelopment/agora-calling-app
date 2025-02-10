@@ -18,6 +18,7 @@ import { CommonService } from './common.service';
 })
 export class StreamService {
   rtc: IRtc = {
+    uid: '',
     // For the local client.
     client: null,
     // For the local audio and video tracks.
@@ -27,6 +28,8 @@ export class StreamService {
     checkSpeakingInterval: null,
     audio: true,
     video: true,
+    videoStatus: true,
+    audioStatus: true
   };
   rtcLiveUser: IRtc = {
     // For the local client.
@@ -44,11 +47,8 @@ export class StreamService {
     localScreenTrack: null,
     uid: null,
   };
-  videoStatus = true;
-  audioStatus = false;
   errorValue;
   type;
-  name;
 
   // liveUsersList = [];
   options = {
@@ -57,7 +57,7 @@ export class StreamService {
     // token: '', // Pass a token if your project enables the App Certificate.
     // uid: null
   };
-  // {name:'dafd', uid:'34'}, {name:'dafd1', uid:'341'}
+  // {name: 'user1', uid:'100'}, {name: 'user2', uid:'200'}
   remoteUsers: IUser[] = []; // To add remote users in list
   updateUserInfo = new BehaviorSubject<any>(null); // to update remote users name
   isScreenShared = false;
@@ -218,6 +218,8 @@ export class StreamService {
     });
     rtc.client.on('user-left', (user) => {
       console.log('user-left', user, 'event3');
+      this.removeUser(user.uid);
+
     });
 
     rtc.client.on('crypt-error', (user) => {
@@ -261,6 +263,12 @@ export class StreamService {
       console.log('track-ended', 'event17');
     });
   }
+
+  removeUser (uuid) {
+    this.remoteUsers =  this.remoteUsers.filter(obj=> obj.uid!=uuid);
+
+  }
+
   // To leave channel-
   async leaveCall(rtc: IRtc) {
     // Destroy the local audio and video tracks.
@@ -446,16 +454,6 @@ export class StreamService {
     console.log(localVideoData, 'localVideoData');
   }
 
-  // To temporary off the video
-  async videoOff() {
-    this.rtc.localVideoTrack.setEnabled(false);
-  }
-
-  // To on the video
-  videoOn() {
-    this.rtc.localVideoTrack.setEnabled(true);
-  }
-
   // async audioVideo() {
   //   // To Capture and audio and video at one time
 
@@ -580,22 +578,26 @@ export class StreamService {
   async videoUpdate() {
     // this.videoStatus = flag;
 
-    if (this.videoStatus) {
-      this.videoStatus = false;
+    if (this.rtc.videoStatus) {
+      this.rtc.videoStatus = false;
     } else {
-      this.videoStatus = true;
+      this.rtc.videoStatus = true;
     }
-    await this.rtc.localVideoTrack.setEnabled(this.videoStatus);
+    console.log(this, 'this.rtc.videoStatus');
+     // To temporary off/on the video
+    await this.rtc.localVideoTrack.setEnabled(this.rtc.videoStatus);
   }
-
+ 
   async audioUpdate() {
     // this.audioStatus = flag;
 
-    if (this.audioStatus) {
-      this.audioStatus = false;
+    if (this.rtc.audioStatus) {
+      this.rtc.audioStatus = false;
     } else {
-      this.audioStatus = true;
+      this.rtc.audioStatus = true;
     }
-    await this.rtc.localAudioTrack.setEnabled(this.audioStatus);
+    console.log(this, 'this.rtc.audioStatus');
+
+    await this.rtc.localAudioTrack.setEnabled(this.rtc.audioStatus);
   }
 }

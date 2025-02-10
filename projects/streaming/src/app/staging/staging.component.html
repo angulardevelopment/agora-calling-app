@@ -33,14 +33,15 @@
         </div>
       </div>
       <div class="footer">
-        <span>Joining as</span>
+        <span>Joining as {{stream.rtc.uid}}</span>
+        <p>remoteIds {{message.remoteIds | json}}</p>
         <p>
           <i class="fa fa-user" aria-hidden="true"></i>
           <input
             class="username"
             type="text"
             placeholder="Enter name"
-            [(ngModel)]="stream.name"
+            [(ngModel)]="stream.rtc.name"
           />
         </p>
         <div class="controls">
@@ -55,7 +56,7 @@
               (click)="setVideo()"
             ></i>
             <i class="fas fa-video-slash" aria-hidden="true" *ngIf="!toggleCamera" (click)="setVideo()"></i>
-            <img
+            <!-- <img
               src="../../assets/video-slash-solid.svg"
               alt=""
               *ngIf="!toggleCamera"
@@ -71,7 +72,7 @@
                 border: 1px solid #838383;
                 border-radius: 50px;
               "
-            />
+            /> -->
           </div>
           <div
             class="mic-status controls-icon"

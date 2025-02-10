@@ -1,76 +1,47 @@
 
-
-    <!-- Timer{{ hours
-    }} {{minutes}} {{second}} -->
     <div class="container diplay-view call-header">
         <div class="my-row">
             <div class="col-lg-12 meeting-info"
                 style="flex-grow: 1;">
-                <!-- <div class="back-icon header-icon">
+                <div class="back-icon header-icon">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                </div> -->
+                </div>
                 <span>Meeting</span>
                 <span class="time-on-call">{{this.hours == 0 ? '00': this.hours}}:{{this.minutes == 0 ? '00': this.minutes}}: {{this.second}}</span>
-                <!-- <i class="fa fa-caret-right" aria-hidden="true"></i> -->
-                <!-- <div class="flip header-icon">
+                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                <div class="flip header-icon">
                     <i class="fa fa-refresh" aria-hidden="true"></i>
                 </div>
                 <div class="speaker header-icon">
                     <i class="fa fa-volume-up" aria-hidden="true"></i>
-                </div> -->
+                </div>
             </div>
             <div class="col-lg-12 members"
                 style="flex-grow: 8;">
-
-                <!-- If We have Only One User  -->
-                <!-- <div class="only-local-user">
-                    <div class="user user1">
-                        <fa-icon [icon]="faVideoSlash" [classes]="['my-video-camera-slash']"
-                            [styles]="{'color': 'red', 'width': '100px', 'height': '100px'  }"></fa-icon>
-                    </div>
-                </div> -->
-                <!-- If we Have Mutiple Users -->
                 <div class="users"
                     [ngClass]="{'my-users-class': stream.remoteUsers.length == 1,
                         'my-users-class2':stream.remoteUsers.length == 2
                           }">
                     <div class="local-user" >
-                        <fa-icon  *ngIf="!this.stream.videoStatus"
-                            [icon]="faVideoSlash"
-                            [classes]="['my-video-camera-slash']"
-                            [styles]="{'color': 'red', 'width': '50px', 'height': '50px'  }">
-                        </fa-icon>
-                       <div id="local-player" class="player" [ngClass]="{'enableDisable' : !this.stream.videoStatus}"></div>
-                        <p>{{stream.name}}</p>
+                        <img src="assets/pexels-cottonbro-3205403.jpg" alt="" class="fill-img" *ngIf="!stream.rtc.videoStatus" >
+                       <div id="local-player" class="player" [ngClass]="{'enableDisable': !stream.rtc.videoStatus}">
+                       >
+                       </div>
+                        <p>{{stream.rtc.name}} {{stream.rtc.uid}}</p>
                         <!-- <div class="screen" *ngIf="this.stream.isScreenShared == true" id="screens"> -->
-
-
                     </div>
                     <div class="other-users"
                         [ngClass]="{'my-class': stream.remoteUsers.length == 1,
-                        'my-class2':stream.remoteUsers.length == 2
-                          }">
+                        'my-class2':stream.remoteUsers.length == 2}">
                           <!--  -->
-                        <div class="other-user user2"
-                        *ngFor="let i of stream.remoteUsers"
-                        >
-                            <!-- <fa-icon
-                            [icon]="faVideoSlash"
-                            [classes]="['my-video-camera-slash']"
-                            [styles]="{'color': 'red', 'width': '50px', 'height': '50px'  }">
-                            </fa-icon> -->
+                        <div class="other-user"
+                        *ngFor="let i of stream.remoteUsers">
                                 <div id="{{ 'remote-playerlist' + i.uid}}" class="ui centered medium image video-align">
+                    <img src="assets/pexels-thisisengineering-3861964.jpg" alt="" class="fill-img" *ngIf="false">
+
                                 </div>
-                            <p>{{i.name}}</p>
+                            <p>{{i.name}}{{i.uid}}</p>
                         </div>
-                        <!-- <div class="other-user user3">
-                            <fa-icon
-                            [icon]="faVideoSlash"
-                            [classes]="['my-video-camera-slash']"
-                            [styles]="{'color': 'red', 'width': '50px', 'height': '50px'  }">
-                            </fa-icon>
-                            <p>User Name 3</p>
-                        </div> -->
                     </div>
                 </div>
 
@@ -82,31 +53,29 @@
                 style="flex-grow: 8;">
                 <div class="hang-up footer-icon"
                     style="background-color: red;
-                        color: white" (click)="end();this.stream.type = 'endd'">
+                        color: white" (click)="end()">
                     <i class="fa fa-phone"
                      aria-hidden="true" style="transform: rotate(135deg);"></i>
                 </div>
                 <div class="video-status footer-icon"
                     style="background-color: white;
                         color: #838383" (click)="stream.videoUpdate()">
-                    <i class="fa fa-video-camera" aria-hidden="true" *ngIf="stream.videoStatus" ></i>
-                    <img src="assets/video-slash-solid.svg" alt="" *ngIf="!stream.videoStatus">
-
-
+                    <i class="fa fa-video-camera" aria-hidden="true" *ngIf="stream.rtc.videoStatus" ></i>
+                    <img src="assets/video-slash-solid.svg" alt="" *ngIf="!stream.rtc.videoStatus">
                 </div>
                 <div class="mic-status footer-icon"
                     style="background-color: white;
                         color: #838383" (click)="stream.audioUpdate()">
-                    <i class="fa fa-microphone" aria-hidden="true" *ngIf="stream.audioStatus" ></i>
-                    <i class="fa fa-microphone-slash" aria-hidden="true" *ngIf="!stream.audioStatus"></i>
+                    <i class="fa fa-microphone" aria-hidden="true" *ngIf="stream.rtc.audioStatus" ></i>
+                    <i class="fa fa-microphone-slash" aria-hidden="true" *ngIf="!stream.rtc.audioStatus"></i>
 
                 </div>
-                <!-- <div class="options footer-icon"
+                <div class="options footer-icon"
                     style="background-color: white;
                     background: #555555;
                     color: #fff;">
                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>

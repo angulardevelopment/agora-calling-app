@@ -26,6 +26,7 @@ export class SdkComponent implements OnInit {
   hours;
   minutes;
   userName; // current user
+  
   constructor(
     public stream: StreamService,
     public api: ApiService,
@@ -43,6 +44,7 @@ export class SdkComponent implements OnInit {
     this.getall();
     this.time();
     this.initialize();
+    console.log(this, 'ngOnInit');
   }
 
   initialize(){
@@ -53,7 +55,7 @@ export class SdkComponent implements OnInit {
           const result =
             await this.message.rtmclient.storage.getChannelMetadata(
               this.stream.options.channel,
-              'MESSAGE'
+              this.common.chatType
             );
           const getUserInfo =
             await this.message.rtmclient.storage.getUserMetadata({
@@ -79,15 +81,15 @@ export class SdkComponent implements OnInit {
   // used in screen share
   async rtclogin(uid: string) {
     try {
-      const rtcDetails = await this.common.generatertcTokenAndUid(uid);
+      const rtcDetails = await this.common.generatertcTokenAndUid(uid, this.common.channelName);
       this.stream.rtcscreenshare.client = this.stream.createRTCClient('host');
       // await this.stream.setRole( this.stream.rtcscreenshare.client, 'host')
 
-      this.stream.agoraServerEvents(
-        this.stream.rtc,
-        this.common.uid1,
-        this.common.uid2
-      );
+      // this.stream.agoraServerEvents(
+      //   this.stream.rtc,
+      //   this.common.uid1,
+      //   this.common.uid2
+      // );
       return { token: rtcDetails.token, uid };
     } catch (error) {
       console.log(error);
@@ -157,7 +159,7 @@ export class SdkComponent implements OnInit {
   }
 
   async ngOnDestroy() {
-    await this.rtmclientChannelLogout();
+    await this.end();
   }
 
   async mute() {
@@ -196,19 +198,19 @@ export class SdkComponent implements OnInit {
     this.externalvideodevices = await this.stream.getVideodevices();
   }
 
-  cohost() {
-    const s = {
-      channelName: 'test',
-      uid: this.common.uid1,
-      token: this.stream.rtc.token,
-    };
-    const d = {
-      channelName: 'test',
-      uid: 123,
-      token: 'yourDestToken',
-    };
-    this.stream.initiateMediaStreamRelay(s, d);
-  }
+  // cohost() {
+  //   const s = {
+  //     channelName: 'test',
+  //     uid: this.common.uid1,
+  //     token: this.stream.rtc.token,
+  //   };
+  //   const d = {
+  //     channelName: 'test',
+  //     uid: 123,
+  //     token: 'yourDestToken',
+  //   };
+  //   this.stream.initiateMediaStreamRelay(s, d);
+  // }
 
   audioVisualizer() {
     navigator.mediaDevices
@@ -322,12 +324,12 @@ export class SdkComponent implements OnInit {
   }
 
   async end() {
+    this.stream.type = 'endd';
     this.router.navigate(['endcall']);
     this.rtmclientChannelLogout(); // leave Channel
     this.endMeet();
     await this.stream.leaveCall(this.stream.rtc);
     this.message.leaveChannel(this.message.rtmclient, this.message.channel);
-    // this.router.navigate(["endcall"]);
   }
 
   async rtmclientChannelLogout() {
@@ -346,16 +348,14 @@ export class SdkComponent implements OnInit {
   endMeet() {
     var hms = `${this.hours}:${this.minutes}:${this.second}`; // your input string
     var a = hms.split(':'); // split it at the colons
-
     // minutes are worth 60 seconds. Hours are worth 60 minutes.
     var seconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
-
     let d = new Date();
     let dformat =
       [d.getFullYear(), d.getMonth() + 1, d.getDate()].join('-') +
       ' ' +
       [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
-    const formData = new FormData();
+    // const formData = new FormData();
     // formData.append('short_url', this.activatedRoute.snapshot.params.id);
     // formData.append('channel_id', this.stream.meetingDetail.channelName);
     // formData.append('start_time',  dformat);

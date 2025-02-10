@@ -4,22 +4,22 @@ import { ApiService } from './api.service';
 import { StreamService } from './stream.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ChannelType } from 'agora-rtm-sdk';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
-  uid1: string;
-  uid2: string;
-  channelName = 'test';
+  channelName = 'chat_room';
+  chatType: ChannelType = "MESSAGE"
   newUserJoined: Subject<any> = new Subject<any>();
 
   constructor(public stream: StreamService, public api: ApiService) {}
 
-  async generatertcTokenAndUid(uid) {
+  async generatertcTokenAndUid(uid, channelName) {
     const url = 'https://agora-tokens-80k1.onrender.com/rtcToken';
     const opts = {
-      params: new HttpParams({ fromString: 'channelName=test&uid=' + uid }),
+      params: new HttpParams({ fromString: `channelName=${channelName}&uid=` + uid }),
     };
     const data = await this.api.getRequest(url, opts.params).toPromise();
     console.log(data, 'rtcTokenAndUid');
@@ -31,7 +31,6 @@ export class CommonService {
     const opts = { params: new HttpParams({ fromString: 'account=' + uid }) };
     const data = await this.api.getRequest(url, opts.params).toPromise();
     console.log(data, 'generateRtmTokenAndUid');
-
     return { uid: uid, token: data['key'] };
   }
 

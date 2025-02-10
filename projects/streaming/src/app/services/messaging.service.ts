@@ -11,6 +11,7 @@ import { StreamService } from './stream.service';
 export class MessagingService {
   rtmclient: RTMClient;
   channel: RTMStreamChannel;
+remoteIds = [];
 
   constructor(private common: CommonService, private stream: StreamService) { }
 
@@ -27,7 +28,11 @@ const rtmConfig = {};
   }
 
   async signalLogin(client: RTMClient, token: string, uid: string) {
-    console.log(client, token, uid, this, 'signalLogin');
+    if (!client) {
+      console.error('RTM client is not initialized');
+      return;
+    }
+    console.log(client, token, uid, this, 'Login');
     try {
       // uid
       await client.login({ token });
@@ -90,6 +95,7 @@ rtm.addEventListener("presence", event => {
     console.log("INFO", "I Join");
   }
   else {
+    this.remoteIds.push(event.publisher);
     console.log("INFO", event.publisher + " is " + event.eventType, "others joining");
   }
 });
@@ -243,10 +249,10 @@ rtm.addEventListener("tokenPrivilegeWillExpire", (channelName) => {
     // });
 
      // When joining a channel, enable the withMetadata switch
-const options ={ withMetadata : true, withPresence : true };
+const options ={ withMetadata : true, withPresence : true, withMessage: true, beQuiet: true };
 try {
   const result = await rtm.subscribe("chat_room", options);
-  console.log(result, 'chat_room');
+  console.log(result, 'subscribe channelname');
 } catch (status) {
   console.log(status);
 }
@@ -373,10 +379,10 @@ try {
     const options = { addTimeStamp : true, addUserId : true };
     
     try {
-      const result = await client.storage.setChannelMetadata(this.stream.options.channel, "MESSAGE", data, options);
+      const result = await client.storage.setChannelMetadata(this.stream.options.channel, this.common.chatType, data, options);
       const resul1t = await client.storage.setUserMetadata([obj]);
      
-      console.log(JSON.stringify(result),resul1t, 'setChannelMetadata');
+      console.log(JSON.stringify(result),resul1t, 'Metadata');
     } catch (status) {
       console.log(JSON.stringify(status));
     }
@@ -398,7 +404,7 @@ try {
  publishMessage = async (rtm, message, msChannelName) => {
   const payload = { type: "text", message: message };
   const publishMessage = JSON.stringify(payload);
-  const publishOptions = { channelType: 'MESSAGE'}
+  const publishOptions = { channelType: this.common.chatType };
   try {
     const result = await rtm.publish(msChannelName, publishMessage, publishOptions);
     console.log(result, publishMessage);
@@ -410,7 +416,7 @@ try {
 //   async subscribetoachannel(rtm: RTMClient){
 //     const options ={ withPresence : true };
 // try {
-//   const result = await rtm.subscribe("chat_room", options);
+//   const result = await rtm.subscribe("", options);
 //   console.log(result);
 // } catch (status) {
 //   console.log(status); 

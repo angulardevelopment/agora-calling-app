@@ -16,14 +16,29 @@ export class AppComponent {
 
   ngOnInit() {
     this.common.getAppDetails();
+  this.init();
   }
 
   open(value: number) {
+    localStorage.setItem('app', value.toString());
+    this.setApp(value);
     if (value == 3) {
       this.router.navigate([`/live`]);
-      this.hide = false;
     } else {
       this.router.navigate([`/staging/${value}`]);
+    }
+  }
+
+  init(){
+    const detail = localStorage.getItem('app');
+    if(detail)
+    this.setApp(parseInt(detail));
+  }
+
+  setApp(value: number) {
+    if (value == 3) {
+      this.hide = false;
+    } else {
       this.hide = false;
     }
   }
