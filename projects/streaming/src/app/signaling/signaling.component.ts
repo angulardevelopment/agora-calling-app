@@ -5,9 +5,9 @@ import { CommonService } from '../services/common.service';
 const { RTM } = AgoraRTM;
 @Component({
   selector: 'app-signaling',
-  imports: [],
   templateUrl: './signaling.component.html',
-  styleUrl: './signaling.component.scss'
+  styleUrl: './signaling.component.scss',
+  standalone: false
 })
 export class SignalingComponent {
 
