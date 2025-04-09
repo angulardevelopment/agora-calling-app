@@ -14,6 +14,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
     StagingComponent,
     FlexibleClassroomComponent,
     LiveComponent,
-    EndCallComponent
+    EndCallComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
