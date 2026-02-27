@@ -20,6 +20,7 @@ I'm Sam, and I'm passionate about product engineering and web development. I cre
 
 
 ### About the app
+ng generate @angular/core:standalone
 ng serve --configuration=development
 
 ### How to test the application.
