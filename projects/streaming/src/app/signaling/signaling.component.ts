@@ -36,7 +36,7 @@ export class SignalingComponent {
     const submitButton = document.getElementById('submitButton');
 
 // Add an event listener to the button
-submitButton.addEventListener('click', buttonClick);
+submitButton?.addEventListener('click', buttonClick);
     const setupRTM = async () => {
       // Initialize the RTM client.
       try {

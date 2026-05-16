@@ -61,6 +61,7 @@ export class StagingComponent implements OnInit {
     try {
       // check gives uid based on urlId
       // this.localuid = this.check(this.urlId)
+      if(this.stream.rtc.uid)
       await this.rtmUserLogin(this.stream.rtc.uid);
       this.setVideo();
       this.setAudio();
@@ -85,6 +86,7 @@ startCallDemo(){
         this.stream.rtc.client = this.stream.createRTCClient('host');
         this.stream.agoraServerEvents(this.stream.rtc);
         this.deviceToggle();
+      if(!this.stream.rtc.uid) return false;
         await this.stream.localUser(rtcDetails.token, this.stream.rtc.uid,'host',this.stream.rtc);
         await this.message.setLocalAttributes(
           this.message.rtmclient,
@@ -126,6 +128,7 @@ startCallDemo(){
 
   async rtmUserLogin(uid: string) {
     try {
+      if(!this.stream.rtc.uid) return false;
       const rtmDetails = await this.common.generateRtmTokenAndUid(this.stream.rtc.uid);
 
       this.message.rtmclient = this.message.createRTMClient(uid.toString());

@@ -7,8 +7,8 @@ import { HomeComponent } from './home/home.component';
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: true,
-    imports: [HomeComponent, RouterOutlet]
+    standalone: false,
+    // imports: [HomeComponent, RouterOutlet]
 })
 export class AppComponent {
   title = 'streaming';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../services/common.service';
-declare var AgoraEduSDK;
+// declare var AgoraEduSDK;
 @Component({
     selector: 'app-flexible-classroom',
     templateUrl: './flexible-classroom.component.html',

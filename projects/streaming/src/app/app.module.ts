@@ -16,7 +16,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { HomeComponent } from './home/home.component';
 
-@NgModule(/* TODO(standalone-migration): clean up removed NgModule class manually. 
+@NgModule(
 {
   declarations: [
     AppComponent,
@@ -39,7 +39,7 @@ import { HomeComponent } from './home/home.component';
   providers: [],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]
-} */)
+})
 export class AppModule {
   constructor(library: FaIconLibrary) {
     library.addIconPacks(fas, fab)
